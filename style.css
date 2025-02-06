@@ -1,52 +1,123 @@
-*{
-    margin: 0px;
-    box-sizing: border-box;
-    font-family: strial;
+* {
+  margin: 0px;
+  box-sizing: border-box;
+  font-family: strial;
+}
+body {
+  width: 100vw;
+  overflow-x: hidden;
+}
+:root {
+  --blue: #2559d2;
 }
 header {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    height: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 15vh;
 }
 @font-face {
-    font-family: strialBold;
-    src: url(./font/SteradianTRIAL-Bd.woff);
-  }
-  @font-face {
-    font-family: strial;
-    src: url(./font/SteradianTRIAL-Rg.woff);
-  }
+  font-family: strialBold;
+  src: url(./font/SteradianTRIAL-Bd.woff);
+}
+@font-face {
+  font-family: strial;
+  src: url(./font/SteradianTRIAL-Rg.woff);
+}
 
 .logo {
-    height: 50px;
-    width: 150px;
-    background-repeat: no-repeat;
-    background-image: url(./images/Quiz\ BiH.png);
-    margin-top: 2vh;
+  height: 50px;
+  width: 150px;
+  background-repeat: no-repeat;
+  background-image: url(./images/Quiz\ BiH.png);
+  margin-top: 2vh;
 }
 .nav {
-    font-family: strial;
-    display: flex;
-    width: auto;
-    list-style: none;
-    width: 20%;
-    justify-content: space-between;
+  font-family: strial;
+  display: flex;
+  width: auto;
+  list-style: none;
+  width: 20%;
+  justify-content: space-between;
 }
 .login {
-    margin-right: 10px;
-    height: 34px;
-    width: 109px;
-    border: 0.5px solid #2559D2;
-    color: #2559D2;
-    border-radius: 5px;
+  margin-right: 10px;
+  height: 34px;
+  width: 109px;
+  border: 0.5px solid var(--blue);
+  color: var(--blue);
+  border-radius: 5px;
 }
 
 .register {
-    border-radius: 5px;
-    height: 34px;
-    width: 128px;
-    background-color: #2559D2;
-    color: white;
-    border: 0.5px solid #2559D2;
+  border-radius: 5px;
+  height: 34px;
+  width: 128px;
+  background-color: var(--blue);
+  color: white;
+  border: 0.5px solid var(--blue);
+}
+.blueText {
+  color: var(--blue);
+}
+h1 {
+  font-size: 50px;
+}
+.mainContainer {
+  display: flex;
+  width: 100vw;
+  margin-top: 5vh;
+}
+.main-text {
+  width: 40%;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+.main-img {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  height: 80vh;
+  width: 50%;
+  position: absolute;
+  right: 100px;
+  width: auto;
+}
+.main-img img {
+  height: 90vh;
+  width: auto;
+}
+
+.quiz-start {
+  width: 384px;
+  height: 55px;
+  border-radius: 5px;
+  background-color: var(--blue);
+  color: white;
+  border: 0.5px solid var(--blue);
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 2vh;
+}
+
+.quizes-played {
+  color: gray;
+  font-size: 14px;
+  text-align: center;
+}
+.mainOffer {
+  color: gray;
+  margin-top: 2vh;
+}
+.basicsQuiz h1 span {
+  font-family: strialBold;
+}
+
+.basicsQuiz {
+  width: 70%;
+  margin-left: 6vw;
 }
