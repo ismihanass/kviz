@@ -1,8 +1,10 @@
-* {
-    margin: 0px;
+*{
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
-    font-family: strial;
-  }
+    font-family: 'Steradian TRIAL', sans-serif;
+}
+
 
 .register-container {
     display: flex;

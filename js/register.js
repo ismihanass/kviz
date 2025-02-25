@@ -8,7 +8,7 @@ function getUserInfo() {
 }
 
 function createUser(email, password, firstName, lastName) {
-    fetch('https://c986-77-239-14-36.ngrok-free.app/users', {
+    fetch('https://600d-77-239-14-36.ngrok-free.app/users', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -31,3 +31,4 @@ function createUser(email, password, firstName, lastName) {
 }
 
 document.getElementById('sendUser').addEventListener('click', getUserInfo);
+
