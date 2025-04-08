@@ -5,6 +5,15 @@
     font-family: 'Steradian TRIAL', sans-serif;
 }
 
+.logo{
+    width: 99px;
+    height: 31px;
+    margin-bottom: 40px;
+    background-image: url(./photos/logo.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
 
 .register-container {
     display: flex;
@@ -14,15 +23,30 @@
 }
 .register-img{
     height: 100vh;
-    width: 55vw;
-    background-color: red;
+    width: 100vw;
+    background-image:url(./photos/register-background.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 110vw;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background-color: black;
 }
+
+.register-header{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 350px;
+}
+
 .register-form{
-    width: 45vw;
+    width: 55vw;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
+
 }
 form {
     display: flex;
@@ -30,7 +54,82 @@ form {
     gap: 30px;
 }
 input {
-    border: 0px;
+    border: none;
     border-bottom: 1px solid gray;
     width: 350px;
+    height: 31px;
+}
+
+.register-button{
+    background-color: #2559D2;
+    border: none;
+    width: 350px;
+    height: 48px;
+    border-radius: 10px;
+    color: white;
+}
+
+.register-img h1{
+    font-size: 40px;
+    color: white;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+@media (max-width: 768px) {
+    .register-container {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .register-img {
+        display: none;
+    }
+
+    .register-form {
+        width: 90vw;
+        height: auto;
+        padding: 40px 20px;
+    }
+
+    .register-header {
+        width: 100%;
+        align-items: center;
+        text-align: center;
+    }
+
+    form {
+        width: 100%;
+        align-items: center;
+    }
+
+    input {
+        width: 100%;
+        max-width: 350px;
+    }
+
+    .register-button {
+        width: 100%;
+        max-width: 350px;
+    }
+
+    .logo {
+        margin: 0 auto 30px auto;
+    }
+
+    .paragraph {
+        font-size: 14px;
+        color: #666;
+    }
+}
+
+@media (max-width: 480px) {
+    .register-heading {
+        font-size: 20px;
+    }
+
+    .register-button {
+        height: 45px;
+        font-size: 16px;
+    }
 }
