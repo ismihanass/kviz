@@ -155,7 +155,7 @@ a {
 #start{
     width: 384px;
     height: 71px;
-    background-color: #2559D2;
+    background-color: #283549;
     color: white;
     border-radius: 10px;
     border: none;
@@ -405,3 +405,174 @@ a{
 .user-border {
     height: 50px;
 }
+@media (max-width: 1200px) {
+    .main-content h1 {
+      font-size: 48px;
+      line-height: 60px;
+    }
+  
+    .first-paragraph {
+      font-size: 18px;
+    }
+  
+    .second-paragraph {
+      font-size: 14px;
+    }
+  
+    .navigation ul {
+      width: 200px;
+    }
+  
+    #start {
+      width: 300px;
+      height: 60px;
+      font-size: 20px;
+    }
+  
+    .bottom-content {
+      flex-direction: column;
+      gap: 30px;
+      align-items: center;
+    }
+  
+    #card {
+      width: 80vw;
+      height: 250px;
+    }
+  
+    .leader-border {
+      width: 90vw;
+    }
+  
+    #score-card {
+      width: 90vw;
+      flex-direction: column;
+      height: auto;
+      padding: 10px;
+      gap: 10px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .header {
+      flex-direction: column;
+      gap: 20px;
+    }
+  
+    .navigation {
+      padding-left: 0;
+      width: 100%;
+    }
+  
+    .navigation ul {
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+    }
+  
+    .buttons {
+      height: auto;
+      gap: 10px;
+    }
+  
+    .main-content {
+      align-items: center;
+      text-align: center;
+    }
+  
+    .content {
+      background-image: none;
+      height: auto;
+      padding: 40px 0;
+    }
+  
+    .instructions-container,
+    .lead-content {
+      height: auto;
+      padding: 40px 0;
+    }
+  
+    .upper-content,
+    .lower-content {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      height: auto;
+    }
+  
+    .icon-box {
+      background-size: 40px;
+      height: auto;
+    }
+  
+    .icon-box h1 {
+      margin-left: 0;
+    }
+  
+    .leaderboard {
+      flex-direction: column;
+      height: auto;
+      padding: 40px 0;
+    }
+  
+    .text-border h1 {
+      font-size: 28px;
+    }
+  
+    .third-start {
+      width: 80%;
+    }
+  
+    .scale-border {
+      width: 100%;
+      align-items: center;
+    }
+  
+    .profilePic {
+      width: 24px;
+      height: 24px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .main-content h1 {
+      font-size: 32px;
+      line-height: 44px;
+    }
+  
+    .first-paragraph {
+      font-size: 16px;
+    }
+  
+    #start {
+      width: 90%;
+      height: 50px;
+      font-size: 18px;
+    }
+  
+    .navigation ul {
+      font-size: 14px;
+    }
+  
+    .text-border h1 {
+      font-size: 24px;
+    }
+  
+    .text-border p {
+      font-size: 14px;
+    }
+  
+    #second-start {
+      width: 90%;
+    }
+  
+    .third-start {
+      font-size: 16px;
+      height: 45px;
+    }
+  
+    #score-card {
+      font-size: 14px;
+    }
+  }
+  
