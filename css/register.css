@@ -1,135 +1,137 @@
-*{
+body {
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Steradian TRIAL', sans-serif;
-}
-
-.logo{
-    width: 99px;
-    height: 31px;
-    margin-bottom: 40px;
-    background-image: url(./photos/logo.png);
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-.register-container {
+    font-family: Arial, sans-serif;
     display: flex;
-    width: 100vw;
     height: 100vh;
-    overflow: hidden;
 }
-.register-img{
-    height: 100vh;
-    width: 100vw;
-    background-image:url(./photos/register-background.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 110vw;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    background-color: black;
-}
-
-.register-header{
+.left-side {
+    flex: 1;
     display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    width: 350px;
-}
-
-.register-form{
-    width: 55vw;
-    display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: space-around;
-
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    border-top-right-radius: 3%;
+    border-bottom-right-radius: 3%;
 }
-form {
+
+.left-side img {
+    width: 100%;
+    height: 110vh; 
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.left-side .overlay-text {
+    position: absolute;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    max-width: 63%;
+    text-align: left;
+    z-index: 2;
+    bottom: 15%;
+    left: 10%;
+}
+
+.overlay-text::before {
+    display: block;
+}
+
+.image-navigation {
+    position: absolute;
+    bottom: 5%;
+    left: 80%;
+    transform: translateX(-50%);
     display: flex;
-    flex-direction:column;
-    gap: 30px;
+    gap: 15px;
 }
-input {
+
+.image-navigation button {
+    background: rgba(255, 255, 255, 0.8);
     border: none;
-    border-bottom: 1px solid gray;
-    width: 350px;
-    height: 31px;
+    color: black;
+    font-size: 18px;
+    padding: 10px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.register-button{
-    background-color: #2559D2;
+.image-navigation button:hover {
+    background: rgba(255, 255, 255, 1);
+}
+.right-side {
+    width: 536px;
+    background: #FAFAFC;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 50px;
+    box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
+}
+.right-side h1 {
+    font-size: 26px;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: left;
+}
+.right-side h1 span{
+    color: #2559d2;
+}
+
+.right-side h2 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.right-side p {
+    font-size: 14px;
+    color: #D9D9D9;
+    margin-bottom: 20px;
+    text-align: left;
+}
+.input-group {
+    width: 100%;
+    margin: 15px 0;
+}
+.input-group label {
+    display: block;
+    font-size: 14px;
+    color: #D9D9D9;
+    margin-bottom: 5px;
+}
+.input-group input {
+    width: 100%;
+    padding: 10px;
     border: none;
-    width: 350px;
-    height: 48px;
-    border-radius: 10px;
+    border-bottom: 2px solid #ccc;
+    background: transparent;
+    outline: none;
+    font-size: 16px;
+}
+.register-button {
+    background: #2559d2;
     color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 15px;
+}
+.login-link {
+    font-size: 14px;
+    text-align: center;
+    margin-top: 15px;
+    color: #D9D9D9;
+}
+.login-link a {
+    color: #2559d2;
+    text-decoration: none;
 }
 
-.register-img h1{
-    font-size: 40px;
-    color: white;
-    margin-top: 20px;
-    margin-left: 20px;
-}
-@media (max-width: 768px) {
-    .register-container {
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .register-img {
-        display: none;
-    }
-
-    .register-form {
-        width: 90vw;
-        height: auto;
-        padding: 40px 20px;
-    }
-
-    .register-header {
-        width: 100%;
-        align-items: center;
-        text-align: center;
-    }
-
-    form {
-        width: 100%;
-        align-items: center;
-    }
-
-    input {
-        width: 100%;
-        max-width: 350px;
-    }
-
-    .register-button {
-        width: 100%;
-        max-width: 350px;
-    }
-
-    .logo {
-        margin: 0 auto 30px auto;
-    }
-
-    .paragraph {
-        font-size: 14px;
-        color: #666;
-    }
-}
-
-@media (max-width: 480px) {
-    .register-heading {
-        font-size: 20px;
-    }
-
-    .register-button {
-        height: 45px;
-        font-size: 16px;
-    }
-}
