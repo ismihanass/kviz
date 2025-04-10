@@ -1,3 +1,10 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Steradian TRIAL', sans-serif;
+}
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -187,5 +194,12 @@ body {
   .register-link a {
       color: #2559d2;             
       text-decoration: none;
+  }
+  a {
+    color: inherit;
+    text-decoration: none; 
+  }
+  a:visited {
+    color: inherit;
   }
   
