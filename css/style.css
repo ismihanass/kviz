@@ -373,7 +373,8 @@ a {
 }
 
 #score-card{
-    width: 529px;
+   width: 529px;
+   min-width: 80%;
     height: 56px;
     background-color: #FFFFFF;
     border-radius: 5px;
@@ -420,7 +421,7 @@ a{
     }
   
     .navigation ul {
-      width: 200px;
+      display: none;
     }
   
     #start {
@@ -443,25 +444,47 @@ a{
     .leader-border {
       width: 90vw;
     }
-  
-    #score-card {
-      width: 90vw;
+    .text-border p {
+      text-wrap: wrap;
+      padding: 30px;
+    }
+    .scale-border{
+      width: 100%;
+    }
+    .score-card{
+      min-width: 80%;
+    }
+    .leaderboard {
       flex-direction: column;
       height: auto;
-      padding: 10px;
-      gap: 10px;
+      padding: 40px 0;
+      margin-top: 20vh;
     }
+  
+    .text-border h1 {
+      font-size: 28px;
+    }
+  
+    .third-start {
+      width: 80%;
+    }
+  
+    .scale-border {
+      width: 100%;
+      align-items: center;
+    }
+  
+    .profilePic {
+      width: 24px;
+      height: 24px;
+    }
+
   }
   
   @media (max-width: 768px) {
     .header {
       flex-direction: column;
-      gap: 20px;
-    }
-  
-    .navigation {
-      padding-left: 0;
-      width: 100%;
+      gap: 50px;
     }
   
     .navigation ul {
@@ -513,6 +536,7 @@ a{
       flex-direction: column;
       height: auto;
       padding: 40px 0;
+      margin-top: 20vh;
     }
   
     .text-border h1 {
@@ -574,5 +598,6 @@ a{
     #score-card {
       font-size: 14px;
     }
+    
   }
   

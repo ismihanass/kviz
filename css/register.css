@@ -149,5 +149,13 @@ a {
     color: inherit;
   }
   
+  @media (max-width: 1200px){
+    .right-side{
+      width: 100%;
+    }
+    .left-side{
+      display: none;
+    }
+  }
 
 
