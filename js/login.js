@@ -1,19 +1,36 @@
-document.getElementById('loginUser').addEventListener('click', getLoginInfo);
-
-function getLoginInfo() {
-    const inputEmail = document.getElementById('email').value;
-    const inputPass = document.getElementById('password').value;
-
-    loginUser(inputEmail, inputPass);
-}
-
-function loginUser(email, password) {
-    fetch('https://c986-77-239-14-36.ngrok-free.app/login', {
+document.addEventListener('DOMContentLoaded', () => {
+    const loginBtn = document.querySelector('.login-button');
+  
+    loginBtn.addEventListener('click', () => {
+      const email = document.querySelector('#email').value.trim();
+      const password = document.querySelector('#password').value.trim();
+  
+      if (!email || !password) {
+        alert('Molimo unesite e-mail i lozinku.');
+        return;
+      }
+  
+      fetch('https://quiz-be-zeta.vercel.app/login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-    })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.log(error));
-}
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('username', data.username); // ako backend šalje username
+          window.location.href = '../htmls/profile.html'; // promijeni ako imaš drugu stranicu
+        } else {
+          alert(data.message || 'Prijava nije uspjela. Provjerite podatke.');
+        }
+      })
+      .catch(err => {
+        console.error('Greška pri prijavi:', err);
+        alert('Došlo je do greške. Pokušajte ponovo.');
+      });
+    });
+  });
+  
