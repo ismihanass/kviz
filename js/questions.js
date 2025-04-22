@@ -1,147 +1,180 @@
 document.addEventListener('DOMContentLoaded', () => {
-    let gameId = null
-    let currentQuestion = null
-    let askedQuestionIds = new Set() // Za praćenje već postavljenih pitanja
-  
-    const questionText = document.querySelector('.text-content')
-    const optionsContainer = document.querySelector('.options')
-    const scoreElement = document.querySelector('.bodovi')
-    const questionCounter = document.querySelector('.question-box span')
-    const timerElement = document.querySelector('.timer')
-    const streakElement = document.querySelector('.streak')
-  
-    let score = 0
-    let questionNumber = 1
-    let streak = 0
-    let timeLimit = 30
-    let timer = null
-  
-    const token = localStorage.getItem('token')
-  
+    let gameId = null;
+    let currentQuestion = null;
+    let askedQuestionIds = new Set(); // Za praćenje već postavljenih pitanja
+
+    const questionText = document.querySelector('.text-content');
+    const optionsContainer = document.querySelector('.options');
+    const scoreElement = document.querySelector('.bodovi');
+    const questionCounter = document.querySelector('.question-box span');
+    const timerElement = document.querySelector('.timer');
+    const streakElement = document.querySelector('.streak');
+
+    let score = 0;
+    let streak = 0;
+    let timeLimit = 30;
+    let timer = null;
+    let questionNumber = 1;
+
+    const token = localStorage.getItem('token');
+
     if (!token) {
-      alert('Morate biti prijavljeni!')
-      window.location.href = '../htmls/login.html'
+        alert('Morate biti prijavljeni!');
+        window.location.href = '../htmls/login.html';
     }
-  
+
+
     function updateScoreUI() {
-      scoreElement.innerHTML = `<img src="../slike/trophy.svg" alt="Bodovi"> Bodovi: ${score}`
+        scoreElement.innerHTML = `<img src="../slike/trophy.svg" alt="Bodovi"> Bodovi: ${score}`;
     }
-  
+
     function updateStreakUI() {
-      streakElement.innerHTML = `<img src="../slike/material-symbols_star-outline-rounded.svg" alt="Streak"> Streak: ${streak}`
+        streakElement.innerHTML = `<img src="../slike/material-symbols_star-outline-rounded.svg" alt="Streak"> Streak: ${streak}`;
     }
-  
+
+
     function updateQuestionCounterUI() {
-      questionCounter.textContent = `Pitanje ${questionNumber} od 20`
+        questionCounter.textContent = `Pitanje ${questionNumber} od 20`;
     }
-  
+
+
     function showEndGame() {
-      window.location.href = '../htmls/quiz-end.html'
+        window.location.href = '../htmls/quiz-end.html';
     }
-  
+
+
     function updateTimer() {
-      timerElement.textContent = `${timeLimit} s`
-      timeLimit--
-      if (timeLimit < 0) {
-        clearInterval(timer)
-        submitAnswer('') // Ako vreme istekne, automatski šaljemo prazan odgovor
-      }
-    }
-  
-    function startTimer() {
-      timeLimit = 30
-      timer = setInterval(updateTimer, 1000)
-    }
-  
-    function displayQuestion(data) {
-      currentQuestion = data.question
-  
-      // Provjeravamo da li je pitanje već postavljeno
-      if (askedQuestionIds.has(currentQuestion._id)) {
-        getNextQuestion()
-        return
-      }
-  
-      askedQuestionIds.add(currentQuestion._id)
-      questionText.textContent = currentQuestion.title
-      optionsContainer.innerHTML = ''
-  
-      currentQuestion.options.forEach((option, i) => {
-        const btn = document.createElement('button')
-        btn.classList.add('option-btn')
-        btn.innerHTML = `<span>${String.fromCharCode(65 + i)}</span> ${option.text}`
-        btn.addEventListener('click', () => submitAnswer(option.text))
-        optionsContainer.appendChild(btn)
-      })
-  
-      updateQuestionCounterUI()
-      updateScoreUI()
-      updateStreakUI()
-  
-      startTimer()
-    }
-  
-    function getNextQuestion() {
-      if (questionNumber > 20) {
-        showEndGame()
-        return
-      }
-  
-      fetch('https://quiz-be-zeta.vercel.app/game/start', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+        timerElement.textContent = `${timeLimit} s`;
+        timeLimit--;
+        if (timeLimit < 0) {
+            clearInterval(timer);
+            submitAnswer(''); 
         }
-      })
-        .then(res => res.json())
-        .then(data => {
-          if (!gameId) gameId = data.gameId
-          displayQuestion(data)
-        })
-        .catch(err => console.error('Greška pri dohvatanju pitanja:', err))
     }
-  
-    function submitAnswer(answer) {
-      if (!currentQuestion) return
-  
-      fetch('https://quiz-be-zeta.vercel.app/game/answer', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          gameId,
-          questionId: currentQuestion._id,
-          answer
-        })
-      })
-        .then(res => res.json())
-        .then(data => {
-          if (data.correct) {
-            score += 10
-            streak++
-            questionNumber++
-  
-            // Ako je broj pitanja manji od 20, pozivamo novo pitanje
-            if (questionNumber <= 20) {
-              getNextQuestion()
-            } else {
-              showEndGame() // Ako je to zadnje pitanje
+
+
+    function startTimer() {
+        timeLimit = 30;
+        timer = setInterval(updateTimer, 1000);
+    }
+
+
+    function displayQuestion(data) {
+        currentQuestion = data.question;
+
+
+        if (isQuestionAlreadyAsked()) {
+            getNextQuestion();
+            return;
+        }
+
+        askedQuestionIds.add(currentQuestion._id);
+        renderQuestionText();
+        renderOptions();
+        updateQuestionCounterUI();
+        startTimer();
+    }
+
+
+    function isQuestionAlreadyAsked() {
+        return askedQuestionIds.has(currentQuestion._id);
+    }
+
+
+    function renderQuestionText() {
+        questionText.textContent = currentQuestion.title;
+    }
+
+
+    function renderOptions() {
+        optionsContainer.innerHTML = '';
+
+        currentQuestion.options.forEach((option, i) => {
+            const btn = document.createElement('button');
+            btn.classList.add('option-btn');
+            btn.innerHTML = `<span>${String.fromCharCode(65 + i)}</span> ${option.text}`;
+            btn.addEventListener('click', () => submitAnswer(option.text));
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+
+    function getNextQuestion() {
+        if (questionNumber > 20) {
+            showEndGame();
+            return;
+        }
+
+        fetch('https://quiz-be-zeta.vercel.app/game/start', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
             }
-          } else {
-            streak = 0
-            showEndGame() // Ako je odgovor pogrešan, završavamo igru
-          }
-  
-          updateScoreUI()
-          updateStreakUI()
         })
-        .catch(err => console.error('Greška pri slanju odgovora:', err))
+        .then(res => res.json())
+        .then(data => {
+            if (!gameId) gameId = data.gameId;
+            displayQuestion(data);
+        })
+        .catch(err => console.error('Greška pri dohvatanju pitanja:', err));
     }
-  
+
+    // Funkcija za slanje odgovora
+    function submitAnswer(answer) {
+        if (!currentQuestion) return;
+
+        fetch('https://quiz-be-zeta.vercel.app/game/answer', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                gameId,
+                questionId: currentQuestion._id,
+                answer
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (isAnswerCorrect(data)) {
+                handleCorrectAnswer();
+            } else {
+                handleWrongAnswer();
+            }
+
+            updateScoreUI();
+            updateStreakUI();
+        })
+        .catch(err => console.error('Greška pri slanju odgovora:', err));
+    }
+
+    // Funkcija za provjeru da li je odgovor tačan
+    function isAnswerCorrect(data) {
+        return data.correct;
+    }
+
+    // Funkcija za obradu tačnog odgovora
+    function handleCorrectAnswer() {
+        score += 10;
+        streak++;
+        questionNumber++;
+
+        // Ako je broj pitanja manji od 20, pozivamo novo pitanje
+        if (questionNumber <= 20) {
+            getNextQuestion();
+        } else {
+            showEndGame(); // Ako je to zadnje pitanje
+        }
+    }
+
+    // Funkcija za obradu pogrešnog odgovora
+    function handleWrongAnswer() {
+        streak = 0;
+        showEndGame(); // Ako je odgovor pogrešan, završavamo igru
+    }
+
     // Početak igre
-    getNextQuestion()
-  })
-  
+    getNextQuestion();
+});
