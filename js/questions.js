@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getNextQuestion() {
         if (questionNumber > 20) {
-            showEndGame();
+           showEndGame();
             return;
         }
 
@@ -120,7 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(err => console.error('Greška pri dohvatanju pitanja:', err));
     }
 
-    // Funkcija za slanje odgovora
     function submitAnswer(answer) {
         if (!currentQuestion) return;
 
@@ -150,31 +149,31 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(err => console.error('Greška pri slanju odgovora:', err));
     }
 
-    // Funkcija za provjeru da li je odgovor tačan
+
     function isAnswerCorrect(data) {
         return data.correct;
     }
 
-    // Funkcija za obradu tačnog odgovora
+
     function handleCorrectAnswer() {
         score += 10;
         streak++;
         questionNumber++;
 
-        // Ako je broj pitanja manji od 20, pozivamo novo pitanje
+
         if (questionNumber <= 20) {
             getNextQuestion();
         } else {
-            showEndGame(); // Ako je to zadnje pitanje
+          //  showEndGame(); // Ako je to zadnje pitanje
         }
     }
 
-    // Funkcija za obradu pogrešnog odgovora
+
     function handleWrongAnswer() {
         streak = 0;
-        showEndGame(); // Ako je odgovor pogrešan, završavamo igru
+      //  showEndGame(); 
     }
 
-    // Početak igre
+
     getNextQuestion();
 });
