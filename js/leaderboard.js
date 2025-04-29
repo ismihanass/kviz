@@ -21,3 +21,4 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Greška pri dohvatanju leaderboard podataka:', error);
         });
 });
+

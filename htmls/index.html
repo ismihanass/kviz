@@ -32,6 +32,25 @@
                 <button id="register"><a href="../htmls/register.html" class="register-link">Registruj se</a></button>
             </div>
         </div>
+        <div class="quiz-popup hidden" id="quizPopup">
+            <div class="popup-content">
+              <h3><span class="blue-text">Quiz BiH</span></h3>
+              <h1>Spremite se za kviz!</h1>
+              <p>Pažljivo birajte odgovore i pokušajte osvojiti što više bodova prije nego istekne vrijeme.</p>
+              <ul class="popup-rules">
+                <li>🔵 Svaki tačan odgovor nosi 10 bodova</li>
+                <li>⏱️ Za svako pitanje imate 10 sekundi da odgovorite</li>
+                <li>📊 Ostvari što bolji rezultat i rangiraj se na ljestvicu</li>
+              </ul>
+              <div class="popup-buttons">
+                <button class="cancel-btn">Odustani</button>
+                <button class="start-quiz-btn">Pokreni kviz</button>
+
+              </div>
+            </div>
+          </div>
+          
+  
         <div class="content" id="content">
             <div class="main-content">
                 <h1><span class="black-text">Pokažite svoje<br> znanje o </span> Bosni i <br>Hercegovini</h1>
@@ -39,7 +58,7 @@
                     predivne domovine! Koliko
                     dobro poznajete Bosnu i <br> Hercegovinu?</p>
                 <button id="start">
-                    <a href="../htmls/quiz-start.html">Započni kviz</a></button>
+                    <a>Započni kviz</a></button>
                 <div class="mini-border">
                     <p class="second-paragraph">+200 odigranih kvizova</p>
                 </div>
@@ -142,6 +161,36 @@
         </div>
     </div>
 </body>
+<script>
+const quizPopup = document.getElementById('quizPopup');
+const cancelBtn = document.querySelector('.cancel-btn');
+const startQuizBtn = document.querySelector('.start-quiz-btn');
+
+const allStartButtons = Array.from(document.querySelectorAll('button')).filter(btn => 
+  btn.textContent.trim().toLowerCase().includes("započni kviz")
+);
+
+allStartButtons.forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+    quizPopup.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  });
+});
+
+cancelBtn.addEventListener('click', function () {
+  quizPopup.classList.add('hidden');
+  document.body.style.overflow = '';
+});
+
+
+startQuizBtn.addEventListener('click', function () {
+  window.location.href = '../htmls/game.html'; 
+});
+
+</script>
+
+
 <script src="../js/leaderboard.js"></script>
 
 </html>
