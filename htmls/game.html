@@ -4,16 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/game.css">
+    <link rel="stylesheet" href="../css/login.css">
     <title>Document</title>
 </head>
 <body>
     <h1>Quiz <span>BiH</span></h1>
     <div class="header">
         <div class="bodovi">
-            <img src="../slike/trophy.svg" alt="Bodovi"> Bodovi: 0
+            <img src="../slike/trophy.svg" alt="Bodovi"> Bodovi: <span id="scoreNum"></span>
         </div>
         <div class="najbolji-rezultat">
-            <img src="../slike/ri_medal-line.svg" alt="Najbolji rezultat"> Najbolji rezultat: 200
+            <img src="../slike/ri_medal-line.svg" alt="Najbolji rezultat"> Najbolji rezultat: <span id="bestScore"></span>
         </div>
         <div class="streak">
             <img src="../slike/material-symbols_star-outline-rounded.svg" alt="Streak"> Streak: 2
@@ -37,6 +38,23 @@
         <button class="option-btn"><span>D</span> </button>
       </div>
     </div>
+    <div class="overlay">
+        <div class="result-box">
+          <div class="logo">Quiz <span>BiH</span></div>
+          <h2>Čestitamo na završenom kvizu !!</h2>
+          <p>U prilogu pogledajte svoju statistiku :</p>
+    
+          <div class="stats">
+            <div class="points">Osvojili ste: <strong>120 bodova</strong> 🧠</div>
+            <div class="place">Leaderboard: <strong>#3 mjesto</strong> 🥇</div>
+          </div>
+    
+          <div class="actions">
+            <button class="close-btn">Zatvori</button>
+            <button class="leaderboard-btn">Leaderboard</button>
+          </div>
+        </div>
+      </div>
     <script src="../js/questions.js"> </script>
 </body>
 </html>
