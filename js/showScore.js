@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = '../htmls/login.html';
     }
 
-    // Fetch the current user's profile data using the token
     fetch('https://quiz-be-zeta.vercel.app/auth/profile', {
         method: 'GET',
         headers: {
@@ -19,18 +18,14 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .then(res => res.json())
     .then(data => {
-        // Debugging: Log the user profile
         console.log('User Profile:', data);
 
-        // Check if bestScore is available in the profile
         if (data && data.bestScore !== undefined) {
             pointsElement.innerHTML = `Osvojili ste: <strong>${data.bestScore} bodova</strong> 🧠`;
 
-            // Find the user's place in the leaderboard
             fetch('https://quiz-be-zeta.vercel.app/leaderboard')
                 .then(response => response.json())
                 .then(leaderboardData => {
-                    // Debugging: Log the leaderboard data
                     console.log('Leaderboard Data:', leaderboardData);
 
                     const userRank = leaderboardData.findIndex(player => player._id === data._id) + 1;

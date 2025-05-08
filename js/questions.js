@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let timer;
     let gameId;
     const token = localStorage.getItem('token');
+
     if (!token) {
         alert('Morate biti prijavljeni!');
         window.location.href = '../htmls/login.html';

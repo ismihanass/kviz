@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const registerForm = document.querySelector('#register-form');
 
   registerForm.addEventListener('submit', (e) => {
-    e.preventDefault();  // Sprečava podrazumijevano slanje forme
+    e.preventDefault(); 
 
     const email = document.querySelector('#email').value.trim();
     const username = document.querySelector('#username').value.trim();
