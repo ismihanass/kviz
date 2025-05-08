@@ -1,39 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bs">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/register.css">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz BiH - Registracija</title>
+  <link rel="stylesheet" href="../css/register.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="left-side">
-        <img src="./slike/1.png" alt="">
-        <div class="overlay-text">”Kviz koji spaja školu, igru i ljubav prema BiH.”</div>
-        <div class="image-navigation">
-            <button>&larr;</button>
-            <button>&rarr;</button>
-        </div>
+  <video autoplay muted loop id="bg-video">
+    <source src="../slike/background.mp4" type="video/mp4">
+  </video>
+
+  <div class="form-wrapper">
+    <div class="register-box">
+      <div class="logo-text">Quiz <span>BiH</span></div>
+      <h2>Kreirajte svoj račun</h2>
+      <p>Popunite podatke za registraciju</p>
+      
+      <div class="divider"></div>
+
+      <form id="register-form">
+        <input type="text" placeholder="Korisničko ime" id="username" required>
+        <input type="email" placeholder="E-mail adresa" id="email" required>
+        <input type="password" placeholder="Lozinka" id="password" required>
+
+        <button type="submit" class="submit-btn">Registruj se</button>
+      </form>
+
+      <div class="login-link">
+        Već imate račun? <a href="../htmls/login.html">Prijavite se.</a>
+      </div>
     </div>
-    <div class="right-side">
-        <h1>Quiz <span>BiH</span></h1>
-        <h2>Registrujte se na Quiz BiH</h2>
-        <p>Popunite informacije za registraciju</p>
-        <div class="input-group">
-            <input type="email" id="email" placeholder="Unesite e-mail">
-        </div>
-        <div class="input-group">
-            <input type="text" id="username" placeholder="Unesite korisničko ime">
-        </div>
-        <div class="input-group">
-            <input type="password" id="password" placeholder="Unesite lozinku">
-        </div>
-        <div class="input-group">
-            <input type="password" id="confirm-password" placeholder="Ponovite lozinku">
-        </div>
-        <button class="register-button">Prijavi se</button>
-        <div class="login-link">Već imate račun? <a href="login.html" >Prijavi se</a></div>
-    </div>
-    <script src="./register.js"></script>
+  </div>
+
+  <script src="../js/register.js"></script>
 </body>
 </html>

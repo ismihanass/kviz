@@ -15,15 +15,16 @@
       <p>U prilogu pogledajte svoju statistiku :</p>
 
       <div class="stats">
-        <div class="points">Osvojili ste: <strong>120 bodova</strong> 🧠</div>
-        <div class="place">Leaderboard: <strong>#3 mjesto</strong> 🥇</div>
+        <div class="points">Osvojili ste: <strong id="player-points">0 bodova</strong> 🧠</div>
+        <div class="place">Leaderboard: <strong id="player-place">#N/A</strong> 🥇</div>
       </div>
 
       <div class="actions">
-        <button class="close-btn">Zatvori</button>
-        <button class="leaderboard-btn">Leaderboard</button>
+        <button class="close-btn" onclick="window.location.href='../htmls/index.html'">Zatvori</button>
+        <button class="leaderboard-btn" onclick="window.location.href='../htmls/index.html#leaderboard'">Leaderboard</button>
       </div>
     </div>
   </div>
+  <script src="../js/showScore.js"></script>
 </body>
 </html>

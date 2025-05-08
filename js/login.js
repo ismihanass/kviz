@@ -1,15 +1,46 @@
-const emailInput = document.getElementById('email');
-const passwordInput = document.getElementById('password');
-const loginButton = document.querySelector('.login-button');
+const form = document.querySelector('form');
+const emailInput = document.querySelector('input[type="email"]');
+const passwordInput = document.querySelector('input[type="password"]');
 
-loginButton.onclick = async () => {
+const token = localStorage.getItem('token');
+
+const checkLoginStatus = async () => {
+  if (!token) {
+    console.log('Nema tokena. Korisnik nije prijavljen.');
+    return;
+  }
+
+  try {
+    const res = await fetch('https://quiz-be-zeta.vercel.app/auth/profile', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      console.log('Korisnik je već prijavljen:', data);
+      window.location.href = './zapocni-kviz.html'; 
+    } else {
+      console.log('Token nije važeći ili je istekao.');
+      localStorage.removeItem('token');
+    }
+  } catch (err) {
+    console.error('Greška prilikom provjere tokena:', err);
+  }
+};
+
+checkLoginStatus();
+
+form.onsubmit = async (e) => {
+  e.preventDefault();
+
   const email = emailInput.value.trim();
   const password = passwordInput.value.trim();
 
-  if (!email || !password) {
-    alert('Unesite e-mail i lozinku.');
-    return;
-  }
+  if (!email || !password) return alert('Unesite email i lozinku.');
 
   try {
     const res = await fetch('https://quiz-be-zeta.vercel.app/auth/login', {
@@ -17,18 +48,12 @@ loginButton.onclick = async () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
+      body: JSON.stringify({ email, password }),
     });
 
     const data = await res.json();
 
-    if (!res.ok) {
-      alert(data.message || 'Greška pri prijavi.');
-      return;
-    }
+    if (!res.ok) return alert(data.message || 'Greška pri prijavi.');
 
     localStorage.setItem('token', data.token);
     window.location.href = './kviz.html';
@@ -37,17 +62,3 @@ loginButton.onclick = async () => {
     alert('Došlo je do greške. Pokušajte ponovo.');
   }
 };
-const loginBtn = document.getElementById('login');
-const loginOverlay = document.getElementById('loginOverlay');
-
-loginBtn.addEventListener('click', () => {
-  loginOverlay.classList.remove('hidden');
-  document.body.style.overflow = 'hidden';
-});
-
-loginOverlay.addEventListener('click', (e) => {
-  if (e.target === loginOverlay) {
-    loginOverlay.classList.add('hidden');
-    document.body.style.overflow = '';
-  }
-});

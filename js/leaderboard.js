@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             scoreCards.forEach((card, index) => {
                 const player = data[index];
-                if (!player) return; // ako nema više igrača
+                if (!player) return; 
 
                 const cardText = card.querySelector('.card-text');
                 const name = card.querySelector('.leaderboard-name');
@@ -22,3 +22,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 });
 
+//za login i register dugme
+
+document.addEventListener('DOMContentLoaded', function () {
+    const loginBtn = document.getElementById('login');
+    const registerBtn = document.getElementById('register');
+  
+    const token = localStorage.getItem('token');
+    
+    if (token) {
+      loginBtn.style.display = 'none';
+      registerBtn.style.display = 'none';
+    } else {
+      loginBtn.style.display = 'block';
+      registerBtn.style.display = 'block';
+    }
+  });
+  

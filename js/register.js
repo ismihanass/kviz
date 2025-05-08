@@ -1,23 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const registerBtn = document.querySelector('.register-button');
+  const registerForm = document.querySelector('#register-form');
 
-  registerBtn.addEventListener('click', () => {
+  registerForm.addEventListener('submit', (e) => {
+    e.preventDefault();  // Sprečava podrazumijevano slanje forme
+
     const email = document.querySelector('#email').value.trim();
     const username = document.querySelector('#username').value.trim();
     const password = document.querySelector('#password').value.trim();
-    const confirmPassword = document.querySelector('#confirm-password').value.trim();
 
-    if (!email || !username || !password || !confirmPassword) {
+    if (!email || !username || !password) {
       alert('Molimo popunite sva polja.');
       return;
     }
 
-    if (password !== confirmPassword) {
-      alert('Lozinke se ne podudaraju.');
-      return;
-    }
-
-    fetch('https://quiz-be-zeta.vercel.app/register', {
+    fetch('https://quiz-be-zeta.vercel.app/auth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -26,9 +22,10 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .then(res => res.json())
     .then(data => {
-      if (data.message === 'User registered successfully') {
-        alert('Uspješna registracija! Možete se prijaviti.');
-        window.location.href = './login.html';
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+        alert('Uspješna registracija! Automatski ste prijavljeni.');
+        window.location.href = './index.html';
       } else {
         alert(data.message || 'Registracija nije uspjela.');
       }
