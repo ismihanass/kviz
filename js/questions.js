@@ -1,10 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     const questionText = document.querySelector('.text-content');
     const optionsContainer = document.querySelector('.options');
-    const scoreElement = document.querySelector('.bodovi');
+    const scoreElement = document.getElementById('scoreNum');
     const timerElement = document.querySelector('.timer');
     const questionNumber = document.getElementById('quesNum');
     const bestScore = document.getElementById('bestScore');
+    const endQuizBtn = document.querySelector('.endquiz');
     let score = 0;
     let questionNum = 1;
     let timer;
@@ -12,14 +13,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');
 
     function endGame() {
-
+        clearInterval(timer);
+        localStorage.setItem('quizScore', score);
         window.location.href = '../htmls/quiz-end.html';
     }
 
     if (!token) {
         alert('Morate biti prijavljeni!');
         window.location.href = '../htmls/login.html';
+        return;
     }
+
+    endQuizBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (confirm('Da li ste sigurni da želite završiti kviz?')) {
+            endGame();
+        }
+    });
 
     function startGame() {
         fetch('https://quiz-be-zeta.vercel.app/auth/profile', {
@@ -31,12 +41,10 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(res => res.json())
         .then(data => {
-            console.log('User Profile:', data);
-            if (data && data.bestScore !== undefined) {
-                bestScore.textContent = `${data.bestScore}`;
+            if (data?.bestScore !== undefined) {
+                bestScore.textContent = data.bestScore;
             }
-        })
-        .catch(err => console.error('Greška pri dohvatanju korisničkih podataka:', err));
+        });
 
         fetch('https://quiz-be-zeta.vercel.app/game/start', {
             method: 'POST',
@@ -47,15 +55,25 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(res => res.json())
         .then(data => {
-            console.log('API odgovor pri pokretanju igre:', data);
             gameId = data.gameId;
             displayQuestion(data.question);
+            questionNumber.textContent = `Pitanje ${questionNum}`;
         })
-        .catch(err => console.error('Greška pri pokretanju igre:', err));
+        .catch(err => {
+            alert('Došlo je do greške pri pokretanju kviza. Pokušajte ponovo.');
+        });
     }
 
-    function submitAnswer(answer, questionId) {
+    function submitAnswer(selectedBtn, answer, questionId) {
         clearInterval(timer);
+        
+        const optionBtns = document.querySelectorAll('.option-btn');
+        optionBtns.forEach(btn => {
+            btn.disabled = true;
+            btn.style.cursor = 'not-allowed';
+        });
+
+        selectedBtn.classList.add('selected');
 
         fetch('https://quiz-be-zeta.vercel.app/game/answer', {
             method: 'POST',
@@ -67,34 +85,37 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(res => res.json())
         .then(data => {
-            console.log('API odgovor nakon slanja odgovora:', data);
-            if (data.correct) {
-                score++;
-                questionNum++;
-                scoreElement.textContent = `Bodovi: ${score}`;
-                questionNumber.textContent = `Pitanje broj ${questionNum}`;
+            highlightAnswers(data.correctAnswer, data.correct, answer);
 
-                if (data.nextQuestion) {
-                    displayQuestion(data.nextQuestion);
+            setTimeout(() => {
+                if (data.correct) {
+                    score++;
+                    questionNum++;
+                    scoreElement.textContent = score;
+                    questionNumber.textContent = `Pitanje ${questionNum}`;
+
+                    if (data.nextQuestion) {
+                        displayQuestion(data.nextQuestion);
+                    } else {
+                        endGame();
+                    }
                 } else {
                     endGame();
                 }
-            } else {
-                endGame();
-            }
-        })
-        .catch(err => console.error('Greška pri slanju odgovora:', err));
+            }, 1500);
+        });
     }
 
     function displayQuestion(question) {
-        console.log('Prikazivanje pitanja:', question);
         questionText.textContent = question.title;
         optionsContainer.innerHTML = '';
 
-        question.options.forEach(option => {
+        const letters = ['A', 'B', 'C', 'D'];
+        question.options.forEach((option, index) => {
             const btn = document.createElement('button');
-            btn.textContent = option.text;
-            btn.addEventListener('click', () => submitAnswer(option.text, question._id));
+            btn.className = 'option-btn';
+            btn.innerHTML = `<span>${letters[index]}</span> ${option.text}`;
+            btn.addEventListener('click', () => submitAnswer(btn, option.text, question._id));
             optionsContainer.appendChild(btn);
         });
 
@@ -112,6 +133,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 endGame();
             }
         }, 1000);
+    }
+
+    function highlightAnswers(correctAnswer, isCorrect, selectedAnswer) {
+        const options = document.querySelectorAll('.option-btn');
+        options.forEach(option => {
+            const optionText = option.textContent.replace(/^[A-D]\s/, '');
+            if (optionText === correctAnswer) {
+                option.classList.add('correct');
+            } else if (optionText === selectedAnswer && !isCorrect) {
+                option.classList.add('wrong');
+            }
+        });
     }
 
     startGame();

@@ -31,6 +31,11 @@
                 <button id="login"> <a href="../htmls/login.html">Prijavi se</a></button>
                 <button id="register"><a href="../htmls/register.html" class="register-link">Registruj se</a></button>
             </div>
+            <div class="hamburger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
         <div class="quiz-popup hidden" id="quizPopup">
             <div class="popup-content">
@@ -161,32 +166,45 @@
     </div>
 </body>
 <script>
+// Hamburger Menu
+const hamburger = document.querySelector('.hamburger-menu');
+const nav = document.querySelector('.navigation');
+
+hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    nav.classList.toggle('active');
+    document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : '';
+});
+
+// Zatvaranje menija klikom van njega
+document.addEventListener('click', (e) => {
+    if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
+        hamburger.classList.remove('active');
+        nav.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+});
+
+// Quiz Popup
 const quizPopup = document.getElementById('quizPopup');
-const cancelBtn = document.querySelector('.cancel-btn');
-const startQuizBtn = document.querySelector('.start-quiz-btn');
+const togglePopup = (show) => {
+    quizPopup.classList.toggle('hidden', !show);
+    document.body.style.overflow = show ? 'hidden' : '';
+};
 
-const allStartButtons = Array.from(document.querySelectorAll('button')).filter(btn => 
-  btn.textContent.trim().toLowerCase().includes("započni kviz")
-);
-
-allStartButtons.forEach(btn => {
-  btn.addEventListener('click', function(e) {
-    e.preventDefault();
-    quizPopup.classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
-  });
+document.querySelectorAll('button').forEach(btn => {
+    if (btn.textContent.trim().toLowerCase().includes("započni kviz")) {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            togglePopup(true);
+        });
+    }
 });
 
-cancelBtn.addEventListener('click', function () {
-  quizPopup.classList.add('hidden');
-  document.body.style.overflow = '';
+document.querySelector('.cancel-btn').addEventListener('click', () => togglePopup(false));
+document.querySelector('.start-quiz-btn').addEventListener('click', () => {
+    window.location.href = '../htmls/game.html';
 });
-
-
-startQuizBtn.addEventListener('click', function () {
-  window.location.href = '../htmls/game.html'; 
-});
-
 </script>
 
 
