@@ -158,4 +158,8 @@ body {
   a:visited {
     color: inherit;
   }
+  button{
+    height: 40px;
+    width: auto;
+  }
   
