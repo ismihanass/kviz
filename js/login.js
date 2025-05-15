@@ -22,7 +22,7 @@ const checkLoginStatus = async () => {
 
     if (res.ok) {
       console.log('Korisnik je već prijavljen:', data);
-      window.location.href = './zapocni-kviz.html'; 
+      window.location.href = './index.html';
     } else {
       console.log('Token nije važeći ili je istekao.');
       localStorage.removeItem('token');
@@ -56,7 +56,7 @@ form.onsubmit = async (e) => {
     if (!res.ok) return alert(data.message || 'Greška pri prijavi.');
 
     localStorage.setItem('token', data.token);
-    window.location.href = './kviz.html';
+    window.location.href = './index.html'; 
   } catch (err) {
     console.error('Greška:', err);
     alert('Došlo je do greške. Pokušajte ponovo.');
