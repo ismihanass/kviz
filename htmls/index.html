@@ -26,9 +26,14 @@
                         <li>Ljestvica</li>
                     </a>
                 </ul>
+                <div class="menu-buttons">
+                    <button id="menu-login"><a href="../htmls/login.html">Prijavi se</a></button>
+                    <button id="menu-register"><a href="../htmls/register.html">Registruj se</a></button>
+                    <button id="menu-logout"><a href="#">Odjavi se</a></button>
+                </div>
             </div>
             <div class="buttons">
-                <button id="login"> <a href="../htmls/login.html">Prijavi se</a></button>
+                <button id="login"><a href="../htmls/login.html">Prijavi se</a></button>
                 <button id="register"><a href="../htmls/register.html" class="register-link">Registruj se</a></button>
             </div>
             <div class="hamburger-menu">
@@ -121,70 +126,55 @@
                     <div class="leader-border">
                         <div class="text-border">
                             <h1>Takmičite se i osvajajte vrh !</h1>
-                            <p>Izazovite svoje prijatelje i igrače širom sveta. Pokažite da ste najbolji i zauzmite
-                                svoje mjesto na leaderboardu!</p>
+                            <p>Izazovite svoje prijatelje i igrače širom sveta. Pokažite da ste najbolji i zauzmite svoje mjesto na leaderboardu!</p>
                             <button class="third-start"><a href="../htmls/game.html">Započni kviz</a></button>
                         </div>
                         <div class="scale-border">
-                            <div id="score-card"> <div>
-                                <p class="card-text">#1 
-
-                            </div>
-                                   <p class="leaderboard-name">Name LastName</p> 
-                                <div class="score"></div> bodova </p></div>
-                                <div id="score-card"> <div>
-                                    <p class="card-text">#2 
-
+                            <div id="score-card">
+                                <div>
+                                    <p class="card-text">#1</p>
+                                    <p class="leaderboard-name">Name LastName</p>
+                                    <div class="score"></div> bodova
                                 </div>
-                                       <p class="leaderboard-name">Name LastName</p> 
-                                    <div class="score"></div> bodova </p></div>
-                                    <div id="score-card"> <div>
-                                        <p class="card-text">#3 
-
-                                    </div>
-                                           <p class="leaderboard-name">Name LastName</p> 
-                                        <div class="score"></div> bodova </p></div>
-                                        <div id="score-card"> <div>
-                                            <p class="card-text">#4
-
-                                        </div>
-                                               <p class="leaderboard-name">Name LastName</p> 
-                                            <div class="score"></div> bodova </p></div>
-                                            
+                            </div>
+                            <div id="score-card">
+                                <div>
+                                    <p class="card-text">#2</p>
+                                    <p class="leaderboard-name">Name LastName</p>
+                                    <div class="score"></div> bodova
+                                </div>
+                            </div>
+                            <div id="score-card">
+                                <div>
+                                    <p class="card-text">#3</p>
+                                    <p class="leaderboard-name">Name LastName</p>
+                                    <div class="score"></div> bodova
+                                </div>
+                            </div>
+                            <div id="score-card">
+                                <div>
+                                    <p class="card-text">#4</p>
+                                    <p class="leaderboard-name">Name LastName</p>
+                                    <div class="score"></div> bodova
+                                </div>
+                            </div>
                         </div>
                         <div class="user-border"></div>
-                        <div id="score-card"> <div>
-                            <p class="card-text">#11
+                        <div id="score-card">
+                            <div>
+                                <p class="card-text">-</p>
+                                <p class="leaderboard-name">Login to see your position</p>
+                                <div class="score"></div> bodova
+                            </div>
                         </div>
-                               <p class="leaderboard-name">Name LastName</p> 
-                            <div class="score"></div> bodova </p></div>
-                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </body>
+<script src="../js/menu.js"></script>
 <script>
-// Hamburger Menu
-const hamburger = document.querySelector('.hamburger-menu');
-const nav = document.querySelector('.navigation');
-
-hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    nav.classList.toggle('active');
-    document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : '';
-});
-
-// Zatvaranje menija klikom van njega
-document.addEventListener('click', (e) => {
-    if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
-        hamburger.classList.remove('active');
-        nav.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-});
-
 // Quiz Popup
 const quizPopup = document.getElementById('quizPopup');
 const togglePopup = (show) => {
@@ -206,8 +196,6 @@ document.querySelector('.start-quiz-btn').addEventListener('click', () => {
     window.location.href = '../htmls/game.html';
 });
 </script>
-
-
 <script src="../js/leaderboard.js"></script>
 
 </html>
