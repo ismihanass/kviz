@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/menu.css">
     <link href="https://fonts.cdnfonts.com/css/steradian-trial" rel="stylesheet">
     <title>Kviz</title>
 
@@ -36,10 +37,22 @@
                 <button id="login"><a href="../htmls/login.html">Prijavi se</a></button>
                 <button id="register"><a href="../htmls/register.html" class="register-link">Registruj se</a></button>
             </div>
-            <div class="hamburger-menu">
+            <div class="hamburger-menu" id="hamburger-menu">
                 <span></span>
                 <span></span>
                 <span></span>
+            </div>
+            <div class="mobile-menu" id="mobile-menu">
+                <ul>
+                    <li><a href="#header">Početna</a></li>
+                    <li><a href="#instruction">Uputstva</a></li>
+                    <li><a href="#leaderboard">Ljestvica</a></li>
+                </ul>
+                <div class="menu-buttons">
+                    <button id="mobile-login"><a href="../htmls/login.html">Prijavi se</a></button>
+                    <button id="mobile-register"><a href="../htmls/register.html">Registruj se</a></button>
+                    <button id="mobile-logout"><a href="#">Odjavi se</a></button>
+                </div>
             </div>
         </div>
         <div class="quiz-popup hidden" id="quizPopup">
