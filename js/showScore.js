@@ -9,11 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = '../htmls/login.html';
     }
 
-    // Show score from localStorage (set by questions.js)
     const quizScore = localStorage.getItem('quizScore') || 0;
     pointsElement.innerHTML = `Osvojili ste: <strong>${quizScore} bodova</strong> 🧠`;
 
-    // Fetch leaderboard position as before, but do NOT overwrite the score
     fetch('https://quiz-be-zeta.vercel.app/auth/profile', {
         method: 'GET',
         headers: {

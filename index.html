@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/menu.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/menu.css">
     <link href="https://fonts.cdnfonts.com/css/steradian-trial" rel="stylesheet">
     <title>Kviz</title>
 
@@ -28,14 +28,14 @@
                     </a>
                 </ul>
                 <div class="menu-buttons">
-                    <button id="menu-login"><a href="../htmls/login.html">Prijavi se</a></button>
-                    <button id="menu-register"><a href="../htmls/register.html">Registruj se</a></button>
+                    <button id="menu-login"><a href="htmls/login.html">Prijavi se</a></button>
+                    <button id="menu-register"><a href="htmls/register.html">Registruj se</a></button>
                     <button id="menu-logout"><a href="#">Odjavi se</a></button>
                 </div>
             </div>
             <div class="buttons">
-                <button id="login"><a href="../htmls/login.html">Prijavi se</a></button>
-                <button id="register"><a href="../htmls/register.html" class="register-link">Registruj se</a></button>
+                <button id="login"><a href="htmls/login.html">Prijavi se</a></button>
+                <button id="register"><a href="htmls/register.html" class="register-link">Registruj se</a></button>
             </div>
             <div class="hamburger-menu" id="hamburger-menu">
                 <span></span>
@@ -49,8 +49,8 @@
                     <li><a href="#leaderboard">Ljestvica</a></li>
                 </ul>
                 <div class="menu-buttons">
-                    <button id="mobile-login"><a href="../htmls/login.html">Prijavi se</a></button>
-                    <button id="mobile-register"><a href="../htmls/register.html">Registruj se</a></button>
+                    <button id="mobile-login"><a href="htmls/login.html">Prijavi se</a></button>
+                    <button id="mobile-register"><a href="htmls/register.html">Registruj se</a></button>
                     <button id="mobile-logout"><a href="#">Odjavi se</a></button>
                 </div>
             </div>
@@ -97,7 +97,7 @@
                         </div>
                         <div class="button-box">
                             <button id="second-start">
-                                <a href="../htmls/quiz-start.html">
+                                <a href="htmls/quiz-start.html">
                                     Započni Kviz
                                 </a>
                             </button>
@@ -140,7 +140,7 @@
                         <div class="text-border">
                             <h1>Takmičite se i osvajajte vrh !</h1>
                             <p>Izazovite svoje prijatelje i igrače širom sveta. Pokažite da ste najbolji i zauzmite svoje mjesto na leaderboardu!</p>
-                            <button class="third-start"><a href="../htmls/game.html">Započni kviz</a></button>
+                            <button class="third-start"><a href="htmls/game.html">Započni kviz</a></button>
                         </div>
                         <div class="scale-border">
                             <div id="score-card">
@@ -186,7 +186,7 @@
         </div>
     </div>
 </body>
-<script src="../js/menu.js"></script>
+<script src="js/menu.js"></script>
 <script>
 // Quiz Popup
 const quizPopup = document.getElementById('quizPopup');
@@ -206,9 +206,9 @@ document.querySelectorAll('button').forEach(btn => {
 
 document.querySelector('.cancel-btn').addEventListener('click', () => togglePopup(false));
 document.querySelector('.start-quiz-btn').addEventListener('click', () => {
-    window.location.href = '../htmls/game.html';
+    window.location.href = 'htmls/game.html';
 });
 </script>
-<script src="../js/leaderboard.js"></script>
+<script src="js/leaderboard.js"></script>
 
 </html>
