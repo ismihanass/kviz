@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (!token) {
-        alert('Morate biti prijavljeni!');
         window.location.href = '../htmls/login.html';
         return;
     }
