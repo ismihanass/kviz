@@ -1,7 +1,7 @@
+const form = document.querySelector('form');
 const emailInput = document.querySelector('input[type="email"]');
 const passwordInput = document.querySelector('input[type="password"]');
 
-const token = localStorage.getItem('token');
 // Constants
 const API_BASE_URL = 'https://quiz-be-zeta.vercel.app';
 const TOKEN_KEY = 'token';
@@ -34,31 +34,27 @@ const checkLoginStatus = async () => {
   }
 
   try {
-    const res = await fetch('https://quiz-be-zeta.vercel.app/auth/profile', {
     const res = await fetch(`${API_BASE_URL}/auth/profile`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`
-@@ -22,28 +45,41 @@ const checkLoginStatus = async () => {
+      }
+    });
+
+    const data = await res.json();
 
     if (res.ok) {
       console.log('Korisnik je već prijavljen:', data);
-      window.location.href = './index.html';
       redirectToHome();
     } else {
       console.log('Token nije važeći ili je istekao.');
-      localStorage.removeItem('token');
       localStorage.removeItem(TOKEN_KEY);
     }
   } catch (err) {
-    console.error('Greška prilikom provjere tokena:', err);
     handleError(err, 'Greška prilikom provjere tokena');
   }
 };
 
-checkLoginStatus();
-
-form.onsubmit = async (e) => {
 // Handle form submission
 const handleLogin = async (e) => {
   e.preventDefault();
@@ -66,7 +62,6 @@ const handleLogin = async (e) => {
   const email = emailInput.value.trim();
   const password = passwordInput.value.trim();
 
-  if (!email || !password) return alert('Unesite email i lozinku.');
   // Input validation
   if (!email || !password) {
     alert('Unesite email i lozinku.');
@@ -84,30 +79,25 @@ const handleLogin = async (e) => {
   }
 
   try {
-    const res = await fetch('https://quiz-be-zeta.vercel.app/auth/login', {
     const res = await fetch(`${API_BASE_URL}/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-@@ -53,12 +89,19 @@ form.onsubmit = async (e) => {
+      },
+      body: JSON.stringify({ email, password }),
+    });
 
     const data = await res.json();
 
-    if (!res.ok) return alert(data.message || 'Greška pri prijavi.');
     if (!res.ok) {
       throw new Error(data.message || 'Greška pri prijavi.');
     }
 
-    localStorage.setItem('token', data.token);
-    window.location.href = './index.html'; 
     localStorage.setItem(TOKEN_KEY, data.token);
     redirectToHome();
   } catch (err) {
-    console.error('Greška:', err);
-    alert('Došlo je do greške. Pokušajte ponovo.');
     handleError(err, err.message || 'Greška pri prijavi.');
   }
-};
 };
 
 // Event listeners
