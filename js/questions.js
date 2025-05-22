@@ -1,171 +1,185 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const questionText = document.querySelector('.text-content');
-    const optionsContainer = document.querySelector('.options');
-    const scoreElement = document.getElementById('scoreNum');
-    const timerElement = document.querySelector('.timer');
-    const questionNumber = document.getElementById('quesNum');
-    const bestScore = document.getElementById('bestScore');
-    const endQuizBtn = document.querySelector('.endquiz');
-    let score = 0;
-    let questionNum = 1;
-    let timer;
-    let gameId;
-    const token = localStorage.getItem('token');
+const questionContainer = document.getElementById('question-container');
+const questionText = document.getElementById('question-text');
+const optionsContainer = document.getElementById('options-container');
+const scoreDisplay = document.getElementById('score');
+const timerDisplay = document.getElementById('timer');
+const progressBar = document.getElementById('progress-bar');
 
-    function endGame() {
-        clearInterval(timer);
-        localStorage.setItem('quizScore', score);
-        window.location.href = '../htmls/quiz-end.html';
-    }
+let currentQuestion = null;
+let score = 0;
+let timeLeft = 30;
+let timer = null;
+let gameStarted = false;
 
-    if (!token) {
-        window.location.href = '../htmls/login.html';
-        return;
-    }
-
-    endQuizBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (confirm('Da li ste sigurni da želite završiti kviz?')) {
-            endGame();
-        }
-    });
-
-    function startGame() {
-        fetch('https://quiz-be-zeta.vercel.app/auth/profile', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data?.bestScore !== undefined) {
-                bestScore.textContent = data.bestScore;
-            }
+async function checkLoginStatus() {
+    try {
+        const response = await fetch('https://quiz-be-zeta.vercel.app/auth/profile', {
+            credentials: 'include'
         });
-
-        fetch('https://quiz-be-zeta.vercel.app/game/start', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(res => res.json())
-        .then(data => {
-            gameId = data.gameId;
-            displayQuestion(data.question);
-            questionNumber.textContent = `Pitanje ${questionNum}`;
-        })
-        .catch(err => {
-            alert('Došlo je do greške pri pokretanju kviza. Pokušajte ponovo.');
-        });
-    }
-
-    function displayQuestion(question) {
-        const questionText = document.querySelector('.text-content');
-        const optionsContainer = document.querySelector('.options');
-
-        // Prepare new content first
-        const newQuestionText = question.title;
-        const newOptions = question.options.map((option, index) => {
-            const btn = document.createElement('button');
-            btn.className = 'option-btn';
-            btn.innerHTML = `<span>${['A', 'B', 'C', 'D'][index]}</span> ${option.text}`;
-            btn.addEventListener('click', () => submitAnswer(btn, option.text, question._id));
-            return btn;
-        });
-
-        // Quick fade out
-        questionText.classList.add('fade-out');
-        optionsContainer.classList.add('fade-out');
-
-        // Update content immediately after fade out starts
-        setTimeout(() => {
-            questionText.textContent = newQuestionText;
-            optionsContainer.innerHTML = '';
-            newOptions.forEach(btn => optionsContainer.appendChild(btn));
-
-            // Quick fade in
-            requestAnimationFrame(() => {
-                questionText.classList.remove('fade-out');
-                questionText.classList.add('fade-in');
-                optionsContainer.classList.remove('fade-out');
-                optionsContainer.classList.add('fade-in');
-            });
-
-            startTimer(question.timeLimit);
-        }, 150); // Reduced from 300ms to 150ms
-    }
-
-    function submitAnswer(selectedBtn, answer, questionId) {
-        clearInterval(timer);
         
-        const optionBtns = document.querySelectorAll('.option-btn');
-        optionBtns.forEach(btn => {
-            btn.disabled = true;
-            btn.style.cursor = 'not-allowed';
+        if (!response.ok) {
+            window.location.href = '/htmls/login.html';
+        }
+    } catch (error) {
+        console.error('Error checking login status:', error);
+        window.location.href = '/htmls/login.html';
+    }
+}
+
+async function startGame() {
+    try {
+        const response = await fetch('https://quiz-be-zeta.vercel.app/game/start', {
+            method: 'POST',
+            credentials: 'include'
         });
+        
+        if (!response.ok) {
+            throw new Error('Failed to start game');
+        }
+        
+        gameStarted = true;
+        await loadNextQuestion();
+    } catch (error) {
+        console.error('Error starting game:', error);
+        showError('Failed to start game. Please try again.');
+    }
+}
 
-        selectedBtn.classList.add('selected');
+async function loadNextQuestion() {
+    try {
+        const response = await fetch('https://quiz-be-zeta.vercel.app/game/next', {
+            credentials: 'include'
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to load question');
+        }
+        
+        const data = await response.json();
+        
+        if (data.gameOver) {
+            endGame();
+            return;
+        }
+        
+        currentQuestion = data;
+        updateQuestionDisplay();
+        startTimer();
+    } catch (error) {
+        console.error('Error loading question:', error);
+        showError('Failed to load question. Please try again.');
+    }
+}
 
-        fetch('https://quiz-be-zeta.vercel.app/game/answer', {
+function updateQuestionDisplay() {
+    questionText.textContent = currentQuestion.question;
+    optionsContainer.innerHTML = '';
+    
+    currentQuestion.options.forEach((option, index) => {
+        const button = document.createElement('button');
+        button.classContent = 'option';
+        button.textContent = option;
+        button.onclick = () => handleAnswer(index);
+        optionsContainer.appendChild(button);
+    });
+    
+    questionContainer.style.opacity = '0';
+    setTimeout(() => {
+        questionContainer.style.opacity = '1';
+    }, 150);
+}
+
+function startTimer() {
+    if (timer) {
+        clearInterval(timer);
+    }
+    
+    timeLeft = 30;
+    updateTimerDisplay();
+    
+    timer = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            handleTimeout();
+        }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    timerDisplay.textContent = timeLeft;
+    const progress = (timeLeft / 30) * 100;
+    progressBar.style.width = `${progress}%`;
+}
+
+async function handleAnswer(optionIndex) {
+    if (!gameStarted || !currentQuestion) return;
+    
+    clearInterval(timer);
+    const selectedOption = optionsContainer.children[optionIndex];
+    
+    try {
+        const response = await fetch('https://quiz-be-zeta.vercel.app/game/answer', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ gameId, questionId, answer })
-        })
-        .then(res => res.json())
-        .then(data => {
-            highlightAnswers(data.correctAnswer, data.correct, answer);
-
-            // Reduced delay from 1500ms to 1000ms
-            setTimeout(() => {
-                if (data.correct) {
-                    score++;
-                    questionNum++;
-                    scoreElement.textContent = score;
-                    questionNumber.textContent = `Pitanje ${questionNum}`;
-
-                    if (data.nextQuestion) {
-                        displayQuestion(data.nextQuestion);
-                    } else {
-                        endGame();
-                    }
-                } else {
-                    endGame();
-                }
-            }, 1000);
+            credentials: 'include',
+            body: JSON.stringify({
+                questionId: currentQuestion.id,
+                answer: optionIndex
+            })
         });
-    }
-
-    function startTimer(timeLimit) {
-        let timeLeft = timeLimit;
-        timerElement.textContent = `${timeLeft}s`;
-        timer = setInterval(() => {
-            timeLeft--;
-            timerElement.textContent = `${timeLeft}s`;
-            if (timeLeft <= 0) {
-                clearInterval(timer);
-                endGame();
-            }
+        
+        const data = await response.json();
+        
+        if (data.correct) {
+            selectedOption.classList.add('correct');
+            score += data.points;
+            scoreDisplay.textContent = score;
+        } else {
+            selectedOption.classList.add('incorrect');
+        }
+        
+        setTimeout(() => {
+            loadNextQuestion();
         }, 1000);
+    } catch (error) {
+        console.error('Error submitting answer:', error);
+        showError('Failed to submit answer. Please try again.');
     }
+}
 
-    function highlightAnswers(correctAnswer, isCorrect, selectedAnswer) {
-        const options = document.querySelectorAll('.option-btn');
-        options.forEach(option => {
-            const optionText = option.textContent.replace(/^[A-D]\s/, '');
-            if (optionText === correctAnswer) {
-                option.classList.add('correct');
-            } else if (optionText === selectedAnswer && !isCorrect) {
-                option.classList.add('wrong');
-            }
-        });
-    }
+function handleTimeout() {
+    if (!gameStarted || !currentQuestion) return;
+    
+    const correctIndex = currentQuestion.correctAnswer;
+    const correctOption = optionsContainer.children[correctIndex];
+    correctOption.classList.add('correct');
+    
+    setTimeout(() => {
+        loadNextQuestion();
+    }, 1000);
+}
 
-    startGame();
-});
+function endGame() {
+    gameStarted = false;
+    window.location.href = '/htmls/quiz-end.html';
+}
+
+function showError(message) {
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-message';
+    errorDiv.textContent = message;
+    
+    document.body.appendChild(errorDiv);
+    
+    setTimeout(() => {
+        errorDiv.remove();
+    }, 3000);
+}
+
+checkLoginStatus();
+startGame();

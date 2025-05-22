@@ -32,9 +32,10 @@ const handleRegistration = async (e) => {
   const email = document.querySelector('#email').value.trim();
   const username = document.querySelector('#username').value.trim();
   const password = document.querySelector('#password').value.trim();
+  const confirmPassword = document.querySelector('#confirmPassword').value.trim();
 
   // Input validation
-  if (!email || !username || !password) {
+  if (!email || !username || !password || !confirmPassword) {
     alert('Molimo popunite sva polja.');
     return;
   }
@@ -51,6 +52,11 @@ const handleRegistration = async (e) => {
 
   if (!validatePassword(password)) {
     alert('Lozinka mora imati najmanje 6 karaktera.');
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    alert('Lozinke se ne podudaraju.');
     return;
   }
 

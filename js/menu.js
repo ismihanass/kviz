@@ -1,36 +1,33 @@
 // Get DOM elements
-const hamburger = document.querySelector('.hamburger-menu');
-const nav = document.querySelector('.navigation');
+const hamburger = document.querySelector('.hamburger');
+const navMenu = document.querySelector('.nav-menu');
+const navLinks = document.querySelectorAll('.nav-link');
 let isMenuOpen = false;
 
 // Toggle menu when hamburger is clicked
-hamburger.addEventListener('click', (e) => {
-    e.stopPropagation();
-    isMenuOpen = !isMenuOpen;
+hamburger.addEventListener('click', () => {
     hamburger.classList.toggle('active');
-    nav.classList.toggle('active');
+    navMenu.classList.toggle('active');
 });
 
 // Close menu when clicking outside
 document.addEventListener('click', (e) => {
-    if (isMenuOpen && !nav.contains(e.target) && !hamburger.contains(e.target)) {
-        isMenuOpen = false;
+    if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
         hamburger.classList.remove('active');
-        nav.classList.remove('active');
+        navMenu.classList.remove('active');
     }
 });
 
 // Close menu when clicking a link
-nav.querySelectorAll('a').forEach(link => {
+navLinks.forEach(link => {
     link.addEventListener('click', () => {
-        isMenuOpen = false;
         hamburger.classList.remove('active');
-        nav.classList.remove('active');
+        navMenu.classList.remove('active');
     });
 });
 
 // Prevent menu from closing when clicking inside
-nav.addEventListener('click', (e) => {
+navMenu.addEventListener('click', (e) => {
     e.stopPropagation();
 });
 
