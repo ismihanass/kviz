@@ -67,7 +67,7 @@
 }
 
 .result-box .close-btn,
-.result-box .leaderboard-btn {
+.result-box .try-again-btn {
   flex: 1;
   padding: 10px 0;
   font-size: 13px;
@@ -79,7 +79,7 @@
   transition: 0.2s ease;
 }
 
-.result-box .leaderboard-btn {
+.result-box .try-again-btn {
   background: #2962ff;
   color: white;
   border: none;
@@ -89,6 +89,6 @@
   background: #f2f2f2;
 }
 
-.result-box .leaderboard-btn:hover {
+.result-box .try-again-btn:hover {
   background: #0039cb;
 }
