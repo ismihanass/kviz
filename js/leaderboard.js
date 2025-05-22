@@ -3,13 +3,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const token = localStorage.getItem('token');
   console.log('Token:', token ? 'exists' : 'not found');
 
-
   fetch('https://quiz-be-zeta.vercel.app/leaderboard')
     .then(response => response.json())
     .then(leaderboardData => {
       console.log('Leaderboard data:', leaderboardData);
       
-
+      // Update top players
       scoreCards.forEach((card, index) => {
         if (index < scoreCards.length - 1) {
           const player = leaderboardData[index];
@@ -25,51 +24,43 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
 
+      // Handle user card (last card)
+      const userCard = scoreCards[scoreCards.length - 1];
+      if (userCard) {
+        const cardText = userCard.querySelector('.card-text');
+        const name = userCard.querySelector('.leaderboard-name');
+        const score = userCard.querySelector('.score');
 
-      if (token) {
-        fetch('https://quiz-be-zeta.vercel.app/auth/profile', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        })
-        .then(response => response.json())
-        .then(userData => {
-          console.log('User data:', userData);
-          
-          if (userData && userData.username) {
-            const userCard = scoreCards[scoreCards.length - 1];
-            if (userCard) {
-
+        if (token) {
+          // User is logged in
+          fetch('https://quiz-be-zeta.vercel.app/auth/profile', {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          })
+          .then(response => response.json())
+          .then(userData => {
+            console.log('User data:', userData);
+            
+            if (userData && userData.username) {
               const userPosition = leaderboardData.findIndex(player => 
                 player._id === userData._id
               ) + 1;
               
-              const cardText = userCard.querySelector('.card-text');
-              const name = userCard.querySelector('.leaderboard-name');
-              const score = userCard.querySelector('.score');
-
               if (cardText) cardText.textContent = userPosition ? `#${userPosition}` : '-';
               if (name) name.textContent = userData.username;
               if (score) score.textContent = userData.bestScore || '0';
             }
-          }
-        })
-        .catch(error => {
-          console.error('Error fetching user data:', error);
-          localStorage.removeItem('token'); 
-        });
-      } else {
-
-        const userCard = scoreCards[scoreCards.length - 1];
-        if (userCard) {
-          const cardText = userCard.querySelector('.card-text');
-          const name = userCard.querySelector('.leaderboard-name');
-          const score = userCard.querySelector('.score');
-
-          if (cardText) cardText.textContent = '-';
-          if (name) name.textContent = 'login!';
-          if (score) score.textContent = '-';
+          })
+          .catch(error => {
+            console.error('Error fetching user data:', error);
+            localStorage.removeItem('token');
+            updateUserCardForNonLoggedIn(userCard);
+          });
+        } else {
+          // User is not logged in
+          updateUserCardForNonLoggedIn(userCard);
         }
       }
     })
@@ -77,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error('Error fetching leaderboard:', error);
     });
 
-
+  // Update navigation buttons
   const buttonsContainer = document.querySelector('.buttons');
   const menuButtonsContainer = document.querySelector('.menu-buttons');
   
@@ -96,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
         </button>
       `;
     }
-
 
     document.querySelectorAll('#logout, #menu-logout').forEach(button => {
       button.addEventListener('click', (e) => {
@@ -128,3 +118,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 });
+
+// Helper function to update user card for non-logged in users
+function updateUserCardForNonLoggedIn(userCard) {
+  const cardText = userCard.querySelector('.card-text');
+  const name = userCard.querySelector('.leaderboard-name');
+  const score = userCard.querySelector('.score');
+  const scoreContainer = score?.parentElement;
+
+  // Clear the entire card content
+  userCard.innerHTML = `
+    <div style="width: 100%; text-align: center; padding: 15px 0;">
+      <a href="../htmls/login.html" style="color: #2559D2; text-decoration: none; font-weight: 500;">Prijavi se da i tvoje ime bude tu!</a>
+    </div>
+  `;
+  
+  // Add hover effect
+  userCard.style.cursor = 'pointer';
+  userCard.addEventListener('click', () => {
+    window.location.href = '../htmls/login.html';
+  });
+}

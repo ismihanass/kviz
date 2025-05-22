@@ -63,6 +63,42 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function displayQuestion(question) {
+        const questionText = document.querySelector('.text-content');
+        const optionsContainer = document.querySelector('.options');
+
+        // Prepare new content first
+        const newQuestionText = question.title;
+        const newOptions = question.options.map((option, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerHTML = `<span>${['A', 'B', 'C', 'D'][index]}</span> ${option.text}`;
+            btn.addEventListener('click', () => submitAnswer(btn, option.text, question._id));
+            return btn;
+        });
+
+        // Quick fade out
+        questionText.classList.add('fade-out');
+        optionsContainer.classList.add('fade-out');
+
+        // Update content immediately after fade out starts
+        setTimeout(() => {
+            questionText.textContent = newQuestionText;
+            optionsContainer.innerHTML = '';
+            newOptions.forEach(btn => optionsContainer.appendChild(btn));
+
+            // Quick fade in
+            requestAnimationFrame(() => {
+                questionText.classList.remove('fade-out');
+                questionText.classList.add('fade-in');
+                optionsContainer.classList.remove('fade-out');
+                optionsContainer.classList.add('fade-in');
+            });
+
+            startTimer(question.timeLimit);
+        }, 150); // Reduced from 300ms to 150ms
+    }
+
     function submitAnswer(selectedBtn, answer, questionId) {
         clearInterval(timer);
         
@@ -86,6 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             highlightAnswers(data.correctAnswer, data.correct, answer);
 
+            // Reduced delay from 1500ms to 1000ms
             setTimeout(() => {
                 if (data.correct) {
                     score++;
@@ -101,24 +138,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     endGame();
                 }
-            }, 1500);
+            }, 1000);
         });
-    }
-
-    function displayQuestion(question) {
-        questionText.textContent = question.title;
-        optionsContainer.innerHTML = '';
-
-        const letters = ['A', 'B', 'C', 'D'];
-        question.options.forEach((option, index) => {
-            const btn = document.createElement('button');
-            btn.className = 'option-btn';
-            btn.innerHTML = `<span>${letters[index]}</span> ${option.text}`;
-            btn.addEventListener('click', () => submitAnswer(btn, option.text, question._id));
-            optionsContainer.appendChild(btn);
-        });
-
-        startTimer(question.timeLimit);
     }
 
     function startTimer(timeLimit) {

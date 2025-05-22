@@ -475,6 +475,49 @@ a{
 #score-card:last-child {
   background-color: rgba(255, 255, 255, 0.95);
   border: 2px solid #2559D2;
+  transition: all 0.3s ease;
+  text-align: center;
+  justify-content: center;
+  padding: 0;
+}
+
+#score-card:last-child .leaderboard-name {
+  flex: 1;
+  padding: 0;
+  text-align: center;
+  justify-content: center;
+  width: 100%;
+}
+
+#score-card:last-child .card-text {
+  width: 40px;
+  text-align: center;
+}
+
+#score-card:last-child .score {
+  min-width: 60px;
+  text-align: center;
+}
+
+#score-card:last-child a {
+  color: #2559D2;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  padding: 15px 0;
+}
+
+#score-card:last-child:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 89, 210, 0.15);
+}
+
+#score-card:last-child a:hover {
+  color: #1e47a8;
+  text-decoration: underline;
 }
 
 #logout {
