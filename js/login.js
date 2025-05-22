@@ -1,88 +1,117 @@
+const emailInput = document.querySelector('input[type="email"]');
+const passwordInput = document.querySelector('input[type="password"]');
+
+const token = localStorage.getItem('token');
+// Constants
 const API_BASE_URL = 'https://quiz-be-zeta.vercel.app';
+const TOKEN_KEY = 'token';
 
-const loginForm = document.getElementById('loginForm');
-const emailInput = document.getElementById('email');
-const passwordInput = document.getElementById('password');
-const errorMessage = document.getElementById('errorMessage');
-const loginButton = document.getElementById('loginButton');
-const googleLoginButton = document.getElementById('googleLogin');
+// Utility functions
+const validateEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
 
-function showError(message) {
-    errorMessage.textContent = message;
-    errorMessage.style.display = 'block';
-    setTimeout(() => {
-        errorMessage.style.display = 'none';
-    }, 3000);
-}
+const validatePassword = (password) => {
+  return password.length >= 6;
+};
 
-function validateEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
+const handleError = (error, customMessage = 'Došlo je do greške. Pokušajte ponovo.') => {
+  console.error(error);
+  alert(customMessage);
+};
 
-function validatePassword(password) {
-    return password.length >= 6;
-}
+const redirectToHome = () => {
+  window.location.href = '../index.html';
+};
 
-async function checkLoginStatus() {
-    try {
-        const response = await fetch(`${API_BASE_URL}/auth/profile`, {
-            credentials: 'include'
-        });
-        
-        if (response.ok) {
-            window.location.href = '/index.html';
-        }
-    } catch (error) {
-        console.error('Error checking login status:', error);
+// Check login status
+const checkLoginStatus = async () => {
+  const token = localStorage.getItem(TOKEN_KEY);
+  if (!token) {
+    console.log('Nema tokena. Korisnik nije prijavljen.');
+    return;
+  }
+
+  try {
+    const res = await fetch('https://quiz-be-zeta.vercel.app/auth/profile', {
+    const res = await fetch(`${API_BASE_URL}/auth/profile`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+@@ -22,28 +45,41 @@ const checkLoginStatus = async () => {
+
+    if (res.ok) {
+      console.log('Korisnik je već prijavljen:', data);
+      window.location.href = './index.html';
+      redirectToHome();
+    } else {
+      console.log('Token nije važeći ili je istekao.');
+      localStorage.removeItem('token');
+      localStorage.removeItem(TOKEN_KEY);
     }
-}
+  } catch (err) {
+    console.error('Greška prilikom provjere tokena:', err);
+    handleError(err, 'Greška prilikom provjere tokena');
+  }
+};
 
-loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const email = emailInput.value.trim();
-    const password = passwordInput.value;
-    
-    if (!validateEmail(email)) {
-        showError('Please enter a valid email address');
-        return;
-    }
-    
-    if (!validatePassword(password)) {
-        showError('Password must be at least 6 characters long');
-        return;
-    }
-    
-    loginButton.disabled = true;
-    loginButton.textContent = 'Logging in...';
-    
-    try {
-        const response = await fetch(`${API_BASE_URL}/auth/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include',
-            body: JSON.stringify({ email, password })
-        });
-        
-        const data = await response.json();
-        
-        if (response.ok) {
-            window.location.href = '/index.html';
-        } else {
-            showError(data.message || 'Login failed. Please try again.');
-        }
-    } catch (error) {
-        showError('An error occurred. Please try again.');
-    } finally {
-        loginButton.disabled = false;
-        loginButton.textContent = 'Login';
-    }
-});
+checkLoginStatus();
 
-googleLoginButton.addEventListener('click', () => {
-    window.location.href = `${API_BASE_URL}/auth/google`;
-});
+form.onsubmit = async (e) => {
+// Handle form submission
+const handleLogin = async (e) => {
+  e.preventDefault();
 
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
+
+  if (!email || !password) return alert('Unesite email i lozinku.');
+  // Input validation
+  if (!email || !password) {
+    alert('Unesite email i lozinku.');
+    return;
+  }
+
+  if (!validateEmail(email)) {
+    alert('Unesite validnu email adresu.');
+    return;
+  }
+
+  if (!validatePassword(password)) {
+    alert('Lozinka mora imati najmanje 6 karaktera.');
+    return;
+  }
+
+  try {
+    const res = await fetch('https://quiz-be-zeta.vercel.app/auth/login', {
+    const res = await fetch(`${API_BASE_URL}/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+@@ -53,12 +89,19 @@ form.onsubmit = async (e) => {
+
+    const data = await res.json();
+
+    if (!res.ok) return alert(data.message || 'Greška pri prijavi.');
+    if (!res.ok) {
+      throw new Error(data.message || 'Greška pri prijavi.');
+    }
+
+    localStorage.setItem('token', data.token);
+    window.location.href = './index.html'; 
+    localStorage.setItem(TOKEN_KEY, data.token);
+    redirectToHome();
+  } catch (err) {
+    console.error('Greška:', err);
+    alert('Došlo je do greške. Pokušajte ponovo.');
+    handleError(err, err.message || 'Greška pri prijavi.');
+  }
+};
+};
+
+// Event listeners
+form.addEventListener('submit', handleLogin);
+
+// Initial check
 checkLoginStatus();
