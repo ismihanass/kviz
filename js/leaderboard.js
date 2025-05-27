@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(leaderboardData => {
         console.log('Leaderboard data:', leaderboardData);
         
-        // Update top players
+
         scoreCards.forEach((card, index) => {
           if (index < scoreCards.length - 1) {
             const player = leaderboardData[index];
@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
   
-        // Handle user card (last card)
         const userCard = scoreCards[scoreCards.length-1];
         if (userCard) {
           const cardText = userCard.querySelector('.card-text');
@@ -32,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const score = userCard.querySelector('.score');
   
           if (token) {
-            // User is logged in
+
             fetch('https://quiz-be-zeta.vercel.app/auth/profile', {
               method: 'GET',
               headers: {
@@ -59,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
               updateUserCardForNonLoggedIn(userCard);
             });
           } else {
-            // User is not logged in
+
             updateUserCardForNonLoggedIn(userCard);
           }
         }
@@ -68,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Error fetching leaderboard:', error);
       });
   
-    // Update navigation buttons
+
     const buttonsContainer = document.querySelector('.buttons');
     const menuButtonsContainer = document.querySelector('.menu-buttons');
     
@@ -119,21 +118,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   
-  // Helper function to update user card for non-logged in users
+
   function updateUserCardForNonLoggedIn(userCard) {
     const cardText = userCard.querySelector('.card-text');
     const name = userCard.querySelector('.leaderboard-name');
     const score = userCard.querySelector('.score');
     const scoreContainer = score?.parentElement;
   
-    // Clear the entire card content
+
     userCard.innerHTML = `
       <div style="width: 100%; text-align: center; padding: 15px 0;">
         <a href="../htmls/login.html" style="color: #2559D2; text-decoration: none; font-weight: 500;">Prijavi se da i tvoje ime bude tu!</a>
       </div>
     `;
     
-    // Add hover effect
+
     userCard.style.cursor = 'pointer';
     userCard.addEventListener('click', () => {
       window.location.href = '../htmls/login.html';

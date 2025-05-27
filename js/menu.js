@@ -1,16 +1,16 @@
-// Get DOM elements
+
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
 const navLinks = document.querySelectorAll('.nav-link');
 let isMenuOpen = false;
 
-// Toggle menu when hamburger is clicked
+
 hamburger.addEventListener('click', () => {
     hamburger.classList.toggle('active');
     navMenu.classList.toggle('active');
 });
 
-// Close menu when clicking outside
+
 document.addEventListener('click', (e) => {
     if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
         hamburger.classList.remove('active');
@@ -18,7 +18,7 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Close menu when clicking a link
+
 navLinks.forEach(link => {
     link.addEventListener('click', () => {
         hamburger.classList.remove('active');
@@ -26,12 +26,12 @@ navLinks.forEach(link => {
     });
 });
 
-// Prevent menu from closing when clicking inside
+
 navMenu.addEventListener('click', (e) => {
     e.stopPropagation();
 });
 
-// Hamburger menu logic
+
 const hamburgerMobile = document.getElementById('hamburger-menu');
 const mobileMenu = document.getElementById('mobile-menu');
 

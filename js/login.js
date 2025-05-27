@@ -2,11 +2,11 @@ const form = document.querySelector('form');
 const emailInput = document.querySelector('input[type="email"]');
 const passwordInput = document.querySelector('input[type="password"]');
 
-// Constants
+
 const API_BASE_URL = 'https://quiz-be-zeta.vercel.app';
 const TOKEN_KEY = 'token';
 
-// Utility functions
+
 const validateEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
@@ -25,7 +25,7 @@ const redirectToHome = () => {
   window.location.href = '../index.html';
 };
 
-// Check login status
+
 const checkLoginStatus = async () => {
   const token = localStorage.getItem(TOKEN_KEY);
   if (!token) {
@@ -55,14 +55,14 @@ const checkLoginStatus = async () => {
   }
 };
 
-// Handle form submission
+
 const handleLogin = async (e) => {
   e.preventDefault();
 
   const email = emailInput.value.trim();
   const password = passwordInput.value.trim();
 
-  // Input validation
+
   if (!email || !password) {
     alert('Unesite email i lozinku.');
     return;
@@ -100,8 +100,8 @@ const handleLogin = async (e) => {
   }
 };
 
-// Event listeners
+
 form.addEventListener('submit', handleLogin);
 
-// Initial check
+
 checkLoginStatus();
