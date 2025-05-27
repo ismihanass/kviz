@@ -488,6 +488,9 @@ a{
   justify-content: center;
   width: 100%;
 }
+.leaderboard-name {
+  text-align: center;
+}
 
 #score-card:last-child .card-text {
   width: 40px;
