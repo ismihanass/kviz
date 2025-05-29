@@ -30,8 +30,15 @@
                 <div class="menu-buttons">
                     <button id="menu-login"><a href="htmls/login.html">Prijavi se</a></button>
                     <button id="menu-register"><a href="htmls/register.html">Registruj se</a></button>
-                    <button id="menu-logout"><a href="#">Odjavi se</a></button>
-                </div>
+                    <div id="contLog" class="logout-container" style="display:none;">
+                      <div class="coin-display">
+                        <span class="coin-icon">🪙</span>
+                        <span class="coin-count">0</span>
+                      </div>
+                      <button id="menu-logout">Odjavi se</button>
+                    </div>
+                  </div>
+                  
             </div>
             <div class="buttons">
                 <button id="login"><a href="htmls/login.html">Prijavi se</a></button >
@@ -145,38 +152,52 @@
                         <div class="scale-border">
                             <div id="score-card">
                                 <div>
-                                    <p class="card-text">#1</p>
-                                    <p class="leaderboard-name">Name LastName</p>
-                                    <div class="score"></div> bodova
+                                    <div>
+                                        <p class="card-text">#1</p>
+                                        <p class="leaderboard-name">Name LastName</p>
+                                    </div>
+                                    <div class="score"></div>
                                 </div>
                             </div>
                             <div id="score-card">
                                 <div>
-                                    <p class="card-text">#2</p>
-                                    <p class="leaderboard-name">Name LastName</p>
-                                    <div class="score"></div> bodova
+                                    <div>
+                                        <p class="card-text">#2</p>
+                                        <p class="leaderboard-name">Name LastName</p>
+                                    </div>
+
+                                    <div class="score"></div>
                                 </div>
                             </div>
                             <div id="score-card">
                                 <div>
-                                    <p class="card-text">#3</p>
-                                    <p class="leaderboard-name">Name LastName</p>
-                                    <div class="score"></div> bodova
+                                    <div>
+                                        <p class="card-text">#3</p>
+                                        <p class="leaderboard-name">Name LastName</p>
+                                    </div>
+
+                                    <div class="score"></div>
                                 </div>
                             </div>
                             <div id="score-card">
                                 <div>
-                                    <p class="card-text">#4</p>
-                                    <p class="leaderboard-name">Name LastName</p>
-                                    <div class="score"></div> bodova
+                                    <div>
+                                        <p class="card-text">#4</p>
+                                        <p class="leaderboard-name">Name LastName</p>
+                                    </div>
+
+                                    <div class="score"></div> 
                                 </div>
                             </div>
                             <div class="user-border"></div>
                             <div id="score-card">
                                 <div>
-                                    <p class="card-text">#4</p>
-                                    <div class="leaderboard-name">Name LastName</div>
-                                    <span class="score"></span> bodova
+                                    <div>
+                                        <p class="card-text">#4</p>
+                                        <div class="leaderboard-name">Name LastName</div>
+                                    </div>
+
+                                    <span class="score"></span>
                                 </div>
                             </div>
                         </div>
@@ -189,6 +210,7 @@
     </div>
 </body>
 <script src="js/menu.js"></script>
+<script src="js/coins.js"></script>
 <script>
 // Quiz Popup
 const quizPopup = document.getElementById('quizPopup');

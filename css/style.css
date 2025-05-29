@@ -12,7 +12,6 @@ a:visited {
   color: inherit;
 }
 
-
 .container{
   display: flex;
   align-items: center;
@@ -157,7 +156,6 @@ a:visited {
   background-color: white;
   color: #2559D2;
   cursor: pointer;
-
 }
 
 #register{
@@ -168,7 +166,6 @@ a:visited {
   background-color: #2559D2;
   color: white;
   cursor: pointer;
-
 }
 
 #start{
@@ -407,7 +404,6 @@ a:visited {
   font-weight: 700;
   line-height: 26px;
   margin-bottom: 20px;
-
 }
 
 .scale-border{
@@ -419,6 +415,7 @@ a:visited {
   max-width: 600px;
 }
 
+/* Fixed leaderboard score cards */
 #score-card{
   width: 100%;
   height: 56px;
@@ -427,6 +424,7 @@ a:visited {
   margin-bottom: 12px;
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: 0 25px;
 }
 
@@ -434,22 +432,24 @@ a:visited {
   display: flex;
   align-items: center;
   width: 100%;
+  justify-content: center;
 }
 
 .card-text {
   font-weight: 500;
   width: 40px;
-  text-align: left;
+  text-align: center;
 }
 
 .leaderboard-name {
   flex: 1;
   padding: 0 20px;
+  text-align: center;
 }
 
 .score {
   min-width: 60px;
-  text-align: right;
+  text-align: center;
 }
 
 a{
@@ -487,9 +487,6 @@ a{
   text-align: center;
   justify-content: center;
   width: 100%;
-}
-.leaderboard-name {
-  text-align: center;
 }
 
 #score-card:last-child .card-text {
@@ -1455,6 +1452,3 @@ font-weight: 500;
 .hamburger-menu.active span:nth-child(2) { opacity: 0;}
 .hamburger-menu.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg);}
 @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px);} to { opacity: 1; transform: translateY(0);}}
-
-
-
