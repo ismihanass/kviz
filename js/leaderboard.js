@@ -60,19 +60,39 @@ document.addEventListener('DOMContentLoaded', () => {
   const menuButtonsContainer = document.querySelector('.menu-buttons');
 
   if (token) {
-    const logoutButton = `
-      <button id="logout">
-        <a href="#">Odjavi se</a>
-      </button>
-    `;
-    buttonsContainer.innerHTML = logoutButton;
-    if (menuButtonsContainer) {
-      menuButtonsContainer.innerHTML = `
-        <button id="menu-logout">
+    const logoutAndCoins = `
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div id="coins" style="color: #FFD700; font-weight: bold;">💰 0</div>
+        <button id="logout">
           <a href="#">Odjavi se</a>
         </button>
+      </div>
+    `;
+    buttonsContainer.innerHTML = logoutAndCoins;
+
+    if (menuButtonsContainer) {
+      menuButtonsContainer.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div id="menu-coins" style="color: #FFD700; font-weight: bold;">💰 0</div>
+          <button id="menu-logout">
+            <a href="#">Odjavi se</a>
+          </button>
+        </div>
       `;
     }
+
+    fetch('https://quiz-be-zeta.vercel.app/auth/profile', {
+      method: 'GET',
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+      .then(response => response.json())
+      .then(userData => {
+        const coins = userData.coins || 0;
+        const coinsEl = document.getElementById('coins');
+        const menuCoinsEl = document.getElementById('menu-coins');
+        if (coinsEl) coinsEl.textContent = `💰 ${coins}`;
+        if (menuCoinsEl) menuCoinsEl.textContent = `💰 ${coins}`;
+      });
 
     document.querySelectorAll('#logout, #menu-logout').forEach(button => {
       button.addEventListener('click', e => {
@@ -91,6 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
       </button>
     `;
     buttonsContainer.innerHTML = loginButtons;
+
     if (menuButtonsContainer) {
       menuButtonsContainer.innerHTML = `
         <button id="menu-login">
@@ -110,7 +131,6 @@ function updateUserCardForNonLoggedIn(userCard) {
       Prijavi se da i tvoje ime bude tu!
     </div>
   `;
-
   userCard.style.cursor = 'pointer';
   userCard.addEventListener('click', () => {
     window.location.href = '../htmls/login.html';

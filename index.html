@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/menu.css">
     <link href="https://fonts.cdnfonts.com/css/steradian-trial" rel="stylesheet">
     <title>Kviz</title>
 
@@ -30,13 +29,8 @@
                 <div class="menu-buttons">
                     <button id="menu-login"><a href="htmls/login.html">Prijavi se</a></button>
                     <button id="menu-register"><a href="htmls/register.html">Registruj se</a></button>
-                    <div id="contLog" class="logout-container" style="display:none;">
-                      <div class="coin-display">
-                        <span class="coin-icon">🪙</span>
-                        <span class="coin-count">0</span>
-                      </div>
+                    <div id="coin-display" class="coin-display" style="display: none;"></div>
                       <button id="menu-logout">Odjavi se</button>
-                    </div>
                   </div>
                   
             </div>
@@ -209,6 +203,7 @@
         </div>
     </div>
 </body>
+<script src="js/leaderboard.js"></script>
 <script src="js/menu.js"></script>
 <script src="js/coins.js"></script>
 <script>
@@ -233,6 +228,5 @@ document.querySelector('.start-quiz-btn').addEventListener('click', () => {
     window.location.href = 'htmls/game.html';
 });
 </script>
-<script src="js/leaderboard.js"></script>
 
 </html>

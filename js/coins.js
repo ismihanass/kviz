@@ -1,33 +1,23 @@
+function updateCoinsDisplay() {
+  const token = localStorage.getItem('token');
+  if (!token) return;
 
-
-function getCoins() {
-    const coins = localStorage.getItem('coins');
-    return coins ? parseInt(coins, 10) : 0;
-  }
-  
-  function setCoins(amount) {
-    localStorage.setItem('coins', amount);
-    updateCoinsDisplay();
-  }
-  
-  function addCoins(amount) {
-    const current = getCoins();
-    setCoins(current + amount);
-  }
-  
-  function removeCoins(amount) {
-    const current = getCoins();
-    const newAmount = current - amount;
-    setCoins(newAmount < 0 ? 0 : newAmount);
-  }
-  
-  function updateCoinsDisplay() {
-    const coinCountSpan = document.querySelector('#contLog .coin-count');
-    if (coinCountSpan) {
-      coinCountSpan.textContent = getCoins();
-    }
-  }
-  
-
-  document.addEventListener('DOMContentLoaded', updateCoinsDisplay);
- 
+  fetch('https://quiz-be-zeta.vercel.app/auth/profile', {
+    method: 'GET',
+    headers: { 'Authorization': `Bearer ${token}` }
+  })
+    .then(response => response.json())
+    .then(userData => {
+      const coins = userData.coins || 0;
+      console.log(userData)
+      console.log(coins)
+      const coinsEl = document.getElementById('coins');
+      const menuCoinsEl = document.getElementById('menu-coins');
+      if (coinsEl) coinsEl.textContent = `💰 ${coins}`;
+      if (menuCoinsEl) menuCoinsEl.textContent = `💰 ${coins}`;
+    })
+    .catch(err => console.error('Greška pri dohvaćanju coina:', err));
+}
+document.addEventListener('DOMContentLoaded', () => {
+  updateCoinsDisplay();
+});

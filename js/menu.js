@@ -15,6 +15,8 @@ mobileMenu.querySelectorAll('a').forEach(link => {
 
 function updateAuthButtons() {
   const token = localStorage.getItem('token');
+  
+  const coins = document.getElementById('coins');
 
   const loginBtn = document.getElementById('login');
   const registerBtn = document.getElementById('register');
